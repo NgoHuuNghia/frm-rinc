@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Firebase Full Course by **Fireship.io**
+Course started in 13/2/2022, started this course to learn more about reactjs, nextjs and firebase in order to create a fullstack web app without too much backend coding myself
 
-## Getting Started
+Course status: **learning**
 
-First, run the development server:
+---
+
+## Feature
+Basic nextjs app with integrated firebase features 
+- ⭐ Firestore for storing users data
+- ⭐ Firestore auth for authenticating
+- 👨‍🎤 Custom Firebase usernames
+- 📰 Bot-friendly content (SEO)
+- 🦾 Advanced SSR, SSG, and ISR techniques
+- 🔥 Firestore realtime CRUD and data modeling
+- ⚛️ Reactive forms with react-hook-form
+- 📂 Image file uploads
+
+## Basic installations
+Check the **[dependencies](package.json)**
+
+Run on *localhost:3000* to test
 
 ```bash
-npm run dev
-# or
-yarn dev
+    npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## [Lessons](https://fireship.io/courses/react-next-firebase)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### [23 Realtime Data Hydration](https://fireship.io/courses/react-next-firebase/ssr-hydration/)
+This lesson we going to take the server rendered content then hydrate it to a realtime data feed from the **firestore** database. That mean if the content changes or the heart count changes it will automatically be reflected on the UI
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+***Keep in mind this is not always required***, and when you do it, it will require an extra document read on the firestore because you have the initial served rendered content and another read on the client side to make it realtime
 
-## Learn More
+At the end we will have data either from the server rendered or realtime but it work all the same. With a page that is server rendered and SEO friendly, but also fully interactive and realtime for our end users
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### [24 Custom 404 Page](https://fireship.io/courses/react-next-firebase/ssr-404/)
+This lesson allow us to handle cases when the server can't find the appropriate data sources
