@@ -10,27 +10,27 @@ export default function Navbar() {
         <nav className='navbar'>
             <ul>
                 <li>
-                    <Link href='/'>
+                    <Link passHref href='/'>
                         <button className="btn-logo">FEED</button>
                     </Link>
                 </li>
                 {username &&(
                     <>
                         <li className="push-left">
-                            <Link href='/admin'>
+                            <Link passHref href='/admin'>
                                 <button className="btn-blue">Write Posts</button>
                             </Link>
                         </li>
                         <li>
-                            <Link href={`/${username}`}>
-                                <img src={user?.photoURL}></img>
+                            <Link passHref href={`/${username}`}>
+                                <Image alt={username} src={user?.photoURL}></Image>
                             </Link>
                         </li>
                     </>
                 )}
                 {!username && (
                     <li>
-                        <Link href='/enter'>
+                        <Link passHref href='/enter'>
                             <button className="btn-blue">Log in</button>
                         </Link>
                     </li>

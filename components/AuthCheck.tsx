@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, FC } from 'react'
+import { Interface } from 'readline'
 import { UserContext } from '../lib/context'
 
 // Component's children only shown to logged-in users
