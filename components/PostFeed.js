@@ -1,8 +1,9 @@
 import Link from 'next/link'
 
-export default ({ posts, admin }) => {
+const PostFeed = ({ posts, admin }) => {
     return posts ? posts.map((post) => <PostItem post={post} key={post.slug} admin={admin} />) : null 
 }
+export default PostFeed
 
 function PostItem({ post, admin = false }) {
     // Naive method to calc word count and read time
@@ -11,13 +12,13 @@ function PostItem({ post, admin = false }) {
 
     return (
         <div className="card">
-            <Link href={`/${post.username}`}>
+            <Link passHref href={`/${post.username}`}>
                 <a>
                 <strong>By @{post.username}</strong>
                 </a>
             </Link>
     
-            <Link href={`/${post.username}/${post.slug}`}>
+            <Link passHref href={`/${post.username}/${post.slug}`}>
                 <h2>
                 <a>{post.title}</a>
                 </h2>

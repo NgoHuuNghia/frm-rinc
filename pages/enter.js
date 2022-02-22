@@ -5,6 +5,7 @@ import { signInWithPopup, signInAnonymously, signOut } from 'firebase/auth'
 
 import { useContext, useState, useEffect, useCallback } from "react"
 import debounce from 'lodash.debounce'
+import Image from 'next/image'
 
 export default function Page({ }) {
     const { user, username } = useContext(UserContext)
@@ -31,7 +32,7 @@ function SignInButton() {
 
     return (
         <button className='btn-google' onClick={signInWithGoogle}>
-            <img src={'/google.png'} alt="google" /> Sign in with google
+            <Image width={50} height={50} src={'/google.png'} alt="google" /> Sign in with google
         </button>
     )
 }

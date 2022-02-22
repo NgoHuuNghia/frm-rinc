@@ -16,7 +16,7 @@ import ImageUploader from '../../components/ImageUploader';
 export default function AdminPostEdit(props) {
     return (
         <AuthCheck>
-            <PostManager /> //? fetch the document from firestore and other controls
+            <PostManager />{/* //? fetch the document from firestore and other controls */}
         </AuthCheck>
     );
 }
@@ -45,7 +45,7 @@ function PostManager() {
                 <aside>
                     <h3>Tools</h3>
                     <button onClick={() => setPreview(!preview)}>{preview ? 'Edit' : 'Preview'}</button>
-                    <Link href={`/${post.username}/${post.slug}`}>
+                    <Link passHref href={`/${post.username}/${post.slug}`}>
                         <button className="btn-blue">Live view</button>
                     </Link>
                     {/* <DeletePostButton postRef={postRef} /> */}
