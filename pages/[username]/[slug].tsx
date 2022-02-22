@@ -90,7 +90,7 @@ export default function Post(props) { //? prop to the path of the content in our
     
             <AuthCheck
                 fallback={ //? link back to sign in page if they aren't signed in
-                <Link href="/enter">
+                <Link passHref href="/enter">
                     <button>💗 Sign Up</button>
                 </Link>
                 }
@@ -99,7 +99,7 @@ export default function Post(props) { //? prop to the path of the content in our
             </AuthCheck>
     
             {currentUser?.uid === post.uid && (
-                <Link href={`/admin/${post.slug}`}>
+                <Link passHref href={`/admin/${post.slug}`}>
                 <button className="btn-blue">Edit Post</button>
                 </Link>
             )}
