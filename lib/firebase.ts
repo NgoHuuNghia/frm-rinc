@@ -24,14 +24,17 @@ function createFirebaseApp(config) {
 }
 const firebaseApp = createFirebaseApp(firebaseConfig)
 
-// Auth exports
+//* Auth exports
 export const auth = getAuth(firebaseApp)
 export const googleAuthProvider = new GoogleAuthProvider()
 
-// Firestore exports
-export const firestore = getFirestore(firebaseApp)
+//* Firestore exports
+export const firestore = getFirestore(firebaseApp) //? in firebase version 9+ every firestore's functions is in getFirestore
 
-// export const storage = firebase.storage()
+//* Storage exports
+export const storage = getStorage(firebaseApp);
+//$ a special firebase event that we can listen to which will tell us the progress of the file being upload
+export const STATE_CHANGED = 'state_changed';
 
 /**`
  * $ Gets a users/{uid} document with username

@@ -1,9 +1,15 @@
 import { doc, getDocs, getDoc, collectionGroup, query, limit, getFirestore } from 'firebase/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore'
 import Link from 'next/link';
+import { useContext } from 'react'
 
+import styles from '../../styles/Post.module.css'
 import { firestore, getUserWithUsername, postToJSON } from '../../lib/firebase';
 import PostContent from '../../components/PostContent';
-import { useDocumentData } from 'react-firebase-hooks/firestore'
+import Metatags from '../../components/Metatags';
+import AuthCheck from '../../components/AuthCheck';
+import HeartButton from '../../components/HeartButton'
+import { UserContext } from '../../lib/context';
 
 //$ tell next to fetch data on the server at build to prerender this page in advance
 export async function getStaticProps({ params }) { //? params instead of query like ssr
@@ -65,38 +71,39 @@ export default function Post(props) { //? prop to the path of the content in our
 
     //* value post will default to the realtime data but fallback to prerender data on server
     const post = realtimePost || props.post;
-
-    //! const { user: currentUser } = useContext(UserContext);
+    
+    const { user: currentUser } = useContext(UserContext);
 
     return (
         <main className={styles.container}>
-            {/*//! <Metatags title={post.title} description={post.title} /> */}
+            <Metatags title={post.title} description={post.title} />
             
             <section>
             <PostContent post={post} />
             </section>
+            <p></p>
     
             <aside className="card">
             <p>
                 <strong>{post.heartCount || 0} 🤍</strong>
             </p>
     
-            {/* <AuthCheck
-                fallback={
+            <AuthCheck
+                fallback={ //? link back to sign in page if they aren't signed in
                 <Link href="/enter">
                     <button>💗 Sign Up</button>
                 </Link>
                 }
             >
                 <HeartButton postRef={postRef} />
-            </AuthCheck> */}
+            </AuthCheck>
     
-            {/* {currentUser?.uid === post.uid && (
+            {currentUser?.uid === post.uid && (
                 <Link href={`/admin/${post.slug}`}>
                 <button className="btn-blue">Edit Post</button>
                 </Link>
-            )} */}
+            )}
             </aside>
         </main>
-    );
+    )
 }

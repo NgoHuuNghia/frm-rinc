@@ -2,8 +2,106 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2022, 3, 17);
+
+      // Required for collection group queries
+      match /posts/{postId} {
+        allow read;
+      }
+      
+      match /users/{userId} {
+        allow read;
+        allow create: if isValidUser(userId);
+      }
+      
+      match /usernames/{username} {
+        allow read;
+        allow create: if isValidUsername(username);
+      }
+
+      
+      match /users/{userId}/posts/{postId} {
+        allow read;
+        allow create: if canCreatePost(userId); 
+        allow update: if canUpdatePost(userId) || canIncrementHearts(userId, postId);
+        allow delete: if request.auth.uid == userId;
+      }
+      
+      match /users/{userId}/posts/{postId}/hearts/{heartId} {
+        allow read;
+        allow write: if request.auth.uid == heartId;
+      }
+
+      // Users
+
+      function isValidUser(userId) {
+        let isOwner = request.auth.uid == userId;
+        let username = request.resource.data.username;
+        //$ special firebase function allow you to grab a document from the database as if it were already created in a batch write
+        let createdValidUsername = existsAfter(/databases/$(database)/documents/usernames/$(username));
+        
+        return isOwner && createdValidUsername;
+      }
+      
+      function isValidUsername(username) {
+        let isOwner = request.auth.uid == request.resource.data.uid;
+        let isValidLength = username.size() >= 3 && username.size() <= 15;
+        //$ like existAfter this getAfter firebase's function allow us to retrive the document after the batch write has been hypothetically written
+        let isValidUserDoc = getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.username == username;
+        
+        return isOwner && isValidLength && isValidUserDoc;     
+      }
+
+      // Posts
+      
+      function canCreatePost(userId) {
+        let isOwner = request.auth.uid == userId;
+        //$ prevent user from modifying the timestamp on their own
+        let isNow = request.time == request.resource.data.createdAt;
+        let isValidContent = request.resource.data.content.size() < 20000 && request.resource.data.heartCount == 0;
+        //$ since the username is store in another document. We can use firebase's get function to retrive data/field of the current user
+        let username = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
+        let usernameMatches = username == request.resource.data.username;
+
+        return isOwner && isNow && isValidContent && usernameMatches;
+      }
+      
+      function canUpdatePost(userId) {
+        let isOwner = request.auth.uid == userId;
+        let isNow = request.time == request.resource.data.updatedAt;
+        let isValidContent = request.resource.data.content.size() < 20000;
+        //$ Forbide certain field from being updated by using the firebase's diff function to compare the request data vs the 
+        //$ actual resourse data from THE DATABASE, after that use the firebase's affectedKeys method and hasAny method to
+        //$ ensure that none of the fields in the array is included in this update 
+        let doesNotUpdateForbidden = !request.resource.data.diff(resource.data).affectedKeys().hasAny(['uid', 'username', 'heartCount']);
+        
+        return isOwner && isNow && isValidContent && doesNotUpdateForbidden;
+      }
+
+      // Hearts
+      //? this one is scary because we are allowing any user to update another user's post document
+      
+      function canIncrementHearts(userId, postId) {
+        //$ same as forbide above but using the hasOnly method to ensure only heartCount is there
+        let hasValidFields = request.resource.data.diff(resource.data).affectedKeys().hasOnly(['heartCount']);
+        let currentUser = request.auth.uid;
+
+        //$ get the heartDoc as it exists after and as it exists current with each respected firebase's functions
+        let heartDocExistsAfter = existsAfter(/databases/$(database)/documents/users/$(userId)/posts/$(postId)/hearts/$(currentUser));
+        let heartDocExists = exists(/databases/$(database)/documents/users/$(userId)/posts/$(postId)/hearts/$(currentUser));
+        
+        let heartDocAdded= !heartDocExists && heartDocExistsAfter;
+        let heartDocRemoved = heartDocExists && !heartDocExistsAfter;
+
+        //$ example 6 - 5 get it?
+        let countChange = request.resource.data.heartCount - resource.data.heartCount;
+        let validChange = countChange == 1 || countChange == -1;
+
+        return hasValidFields && validChange && ( countChange == 1 ? heartDocAdded : heartDocRemoved );
+      }
+      
+
+      
     }
+    
   }
 }

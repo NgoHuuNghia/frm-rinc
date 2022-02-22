@@ -5,6 +5,7 @@ import { Timestamp, query, where, orderBy, limit, collectionGroup, getDocs, star
 
 import { firestore, postToJSON } from '../lib/firebase';
 import PostFeed from '../components/PostFeed';
+import Metatags from '../components/Metatags';
 
 const LIMIT = 10
 
@@ -61,7 +62,7 @@ export default function Home(props) {
 
   return (
     <main>
-      {/* <Metatags title="Home Page" description="Get the latest posts on our site" /> */}
+      <Metatags title="Home Page" description="Get the latest posts on our site" />
 
       <div className="card card-info">
         <h2>💡 Next.js + Firebase - The Full Course</h2>
