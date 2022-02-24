@@ -4,11 +4,7 @@ import { doc, writeBatch, getDoc, getFirestore } from 'firebase/firestore'
 import { signInWithPopup, signInAnonymously, signOut } from 'firebase/auth'
 
 import { useContext, useState, useEffect, useCallback } from "react"
-<<<<<<< HEAD
-//import Image from "next/image"
-=======
 import Image from "next/image"
->>>>>>> f2ab5fca461113fd8c2a23319a9b48e77508cab1
 import debounce from 'lodash.debounce'
 
 export default function Page({ }) {
@@ -35,20 +31,14 @@ function SignInButton() {
     }
 
     return (
-<<<<<<< HEAD
         <>
             <button className='btn-google' onClick={signInWithGoogle}>
-                <img src={'/google.png'} alt="google" /> Sign in with google
+                <Image width={50} height={50} src={'/google.png'} alt="google" /> Sign in with google
             </button>
             <button onClick={() => signInAnonymously(auth)}>
                 Sign in Anonymously
             </button>
         </>
-=======
-        <button className='btn-google' onClick={signInWithGoogle}>
-            <Image src={'/google.png'} alt="google" /> Sign in with google
-        </button>
->>>>>>> f2ab5fca461113fd8c2a23319a9b48e77508cab1
     )
 }
 

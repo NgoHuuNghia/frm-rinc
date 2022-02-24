@@ -4,10 +4,12 @@ import { useContext } from 'react';
 import { UserContext } from '@lib/context';
 import { auth } from '@lib/firebase';
 import { signOut } from 'firebase/auth';
+import Image from 'next/image';
 
 // Top navbar
 export default function Navbar() {
   const { user, username } = useContext(UserContext);
+
   const router = useRouter();
 
   const signOutNow = () => {
@@ -19,7 +21,7 @@ export default function Navbar() {
     <nav className="navbar">
       <ul>
         <li>
-          <Link href="/">
+          <Link passHref href="/">
             <button className="btn-logo">NXT</button>
           </Link>
         </li>
@@ -31,13 +33,13 @@ export default function Navbar() {
               <button onClick={signOutNow}>Sign Out</button>
             </li>
             <li>
-              <Link href="/admin">
+              <Link passHref href="/admin">
                 <button className="btn-blue">Write Posts</button>
               </Link>
             </li>
             <li>
-              <Link href={`/${username}`}>
-                <img src={user?.photoURL || '/hacker.png'} />
+              <Link passHref href={`/${username}`}>
+                <Image width={50} height={50} alt={username} src={user?.photoURL || '/hacker.png'} />
               </Link>
             </li>
           </>
@@ -46,7 +48,7 @@ export default function Navbar() {
         {/* user is not signed OR has not created username */}
         {!username && (
           <li>
-            <Link href="/enter">
+            <Link passHref href="/enter">
               <button className="btn-blue">Log in</button>
             </Link>
           </li>
@@ -54,37 +56,4 @@ export default function Navbar() {
       </ul>
     </nav>
   );
-}
-    return (
-        <nav className='navbar'>
-            <ul>
-                <li>
-                    <Link passHref href='/'>
-                        <button className="btn-logo">FEED</button>
-                    </Link>
-                </li>
-                {username &&(
-                    <>
-                        <li className="push-left">
-                            <Link passHref href='/admin'>
-                                <button className="btn-blue">Write Posts</button>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link passHref href={`/${username}`}>
-                                <Image alt={username} src={user?.photoURL}></Image>
-                            </Link>
-                        </li>
-                    </>
-                )}
-                {!username && (
-                    <li>
-                        <Link passHref href='/enter'>
-                            <button className="btn-blue">Log in</button>
-                        </Link>
-                    </li>
-                )}
-            </ul>
-        </nav>
-    )
 }
