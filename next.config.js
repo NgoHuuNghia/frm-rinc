@@ -7,4 +7,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['lh3.googleusercontent.com'],
+  },
 }

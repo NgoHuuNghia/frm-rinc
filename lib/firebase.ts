@@ -5,14 +5,21 @@ import { getStorage } from "firebase/storage"
 
 const firebaseConfig = {
     apiKey: "AIzaSyAq0A1noYVXOx7hPL8PNm8KTxSUzrH1cHY",
+
     authDomain: "frn-rinc.firebaseapp.com",
+
+    databaseURL: "https://frn-rinc-default-rtdb.asia-southeast1.firebasedatabase.app",
+
     projectId: "frn-rinc",
+
     storageBucket: "frn-rinc.appspot.com",
+
     messagingSenderId: "900700689476",
+
     appId: "1:900700689476:web:cc02014cb8b472da8d1811",
+
     measurementId: "G-8NBLCT16X5"
 }
-
 
 //$ get the app or initialize it 
 function createFirebaseApp(config) {
