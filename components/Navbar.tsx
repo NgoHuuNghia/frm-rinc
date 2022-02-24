@@ -8,7 +8,6 @@ import { signOut } from 'firebase/auth';
 // Top navbar
 export default function Navbar() {
   const { user, username } = useContext(UserContext);
-
   const router = useRouter();
 
   const signOutNow = () => {
@@ -55,4 +54,37 @@ export default function Navbar() {
       </ul>
     </nav>
   );
+}
+    return (
+        <nav className='navbar'>
+            <ul>
+                <li>
+                    <Link passHref href='/'>
+                        <button className="btn-logo">FEED</button>
+                    </Link>
+                </li>
+                {username &&(
+                    <>
+                        <li className="push-left">
+                            <Link passHref href='/admin'>
+                                <button className="btn-blue">Write Posts</button>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link passHref href={`/${username}`}>
+                                <Image alt={username} src={user?.photoURL}></Image>
+                            </Link>
+                        </li>
+                    </>
+                )}
+                {!username && (
+                    <li>
+                        <Link passHref href='/enter'>
+                            <button className="btn-blue">Log in</button>
+                        </Link>
+                    </li>
+                )}
+            </ul>
+        </nav>
+    )
 }
