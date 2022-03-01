@@ -47,14 +47,17 @@ export const STATE_CHANGED = 'state_changed';
  * $ Gets a users/{uid} document with username
  * @param  {string} username
  */
-export async function getUserWithUsername(username) {
+ export async function getUserWithUsername(username) {
+    // const usersRef = collection(firestore, 'users');
+    // const query = usersRef.where('username', '==', username).limit(1);
+
     const q = query(
         collection(firestore, 'users'), 
         where('username', '==', username),
         limit(1)
     )
-    const userDoc = ( await getDocs(q) ).docs[0]
-    return userDoc
+    const userDoc = ( await getDocs(q) ).docs[0];
+    return userDoc;
 }
 
 /**`
